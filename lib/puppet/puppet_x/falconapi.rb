@@ -40,7 +40,6 @@ class FalconApi
     url_path = "/policy/combined/sensor-update/v2?filter=#{query}"
 
     request = Net::HTTP::Get.new(url_path)
-    request['Content-Type'] = 'application/json'
     request['Authorization'] = "Bearer #{@bearer_token.unwrap}"
 
     resp = @http_client.request(request)
@@ -74,7 +73,6 @@ class FalconApi
     url_path = "/sensors/combined/installers/v1?filter=#{filter}"
 
     request = Net::HTTP::Get.new(url_path)
-    request['Content-Type'] = 'application/json'
     request['Authorization'] = "Bearer #{@bearer_token.unwrap}"
 
     resp = @http_client.request(request)
@@ -100,7 +98,6 @@ class FalconApi
     url_path = "/sensors/entities/download-installer/v1?id=#{sha256}"
 
     request = Net::HTTP::Get.new(url_path)
-    request['Content-Type'] = 'application/json'
     request['Authorization'] = "Bearer #{@bearer_token}"
 
     resp = @http_client.request(request)
