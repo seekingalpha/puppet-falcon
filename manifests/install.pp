@@ -59,8 +59,18 @@ class falcon::install (
     falcon_cloud => $falcon_cloud,
   }
 
-  package { 'falcon-sensor':
+  -> package { 'falcon-sensor':
     ensure => $info['version'],
     source => $info['file_path'],
+  }
+
+  exec { 'register falcon cid':
+    command     => "/opt/CrowdStrike/falconctl -s --cid=${info['cid']}",
+    unless      => '/opt/CrowdStrike/falconctl -g --cid',
+  }
+
+  ~> exec { 'restart falcon-sensor':
+    command => '/usr/bin/systemctl restart falcon-sensor.service',
+    refreshonly => true,
   }
 }
