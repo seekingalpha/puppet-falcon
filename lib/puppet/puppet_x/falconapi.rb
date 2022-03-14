@@ -112,6 +112,28 @@ class FalconApi
     end
   end
 
+  def cid
+    url_path = "/sensors/queries/installers/ccid/v1"
+
+    request = Net::HTTP::Get.new(url_path)
+    request['Authorization'] = "Bearer #{@bearer_token.unwrap}"
+
+    resp = @http_client.request(request)
+
+    case resp
+    when Net::HTTPSuccess, Net::HTTPRedirection then
+      body = JSON.parse(resp.read_body)
+
+      if body['resources'].nil? || body['resources'].size != 1
+        raise Puppet::Error, "Bad CID response (errors: #{body['errors']})"
+      end
+
+      body['resources'][0]
+    else
+      raise Puppet::Error, "Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}"
+    end
+  end
+
   # Private class methods
   private
 

@@ -70,6 +70,7 @@ Puppet::Functions.create_function(:'falcon::sensor_download_info') do
 
     {
       'bearer_token' => falcon_api.bearer_token,
+      'cid' => falcon_api.cid,
       'version' => version,
       'sha256' => installer['sha256'],
       'file_path' => file_path,
